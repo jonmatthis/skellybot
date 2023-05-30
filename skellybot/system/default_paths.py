@@ -2,9 +2,9 @@ from datetime import datetime
 import time
 from pathlib import Path
 
-from skellybot import __package_name__
+from skellybot.system.get_package_info import PACKAGE_NAME
 
-BASE_FOLDER_NAME = f"{__package_name__}_data"
+BASE_FOLDER_NAME = f"{PACKAGE_NAME}_data"
 LOGS_INFO_AND_SETTINGS_FOLDER_NAME = "logs_info_and_settings"
 LOG_FILE_FOLDER_NAME = "logs"
 

@@ -19,10 +19,9 @@ print(f"Source code for this package is available at: {__repo_url__}")
 base_package_path = Path(__file__).parent
 print(f"adding base_package_path: {base_package_path} : to sys.path")
 sys.path.insert(0, str(base_package_path))  # add parent directory to sys.path
-
 from skellybot.system.default_paths import get_log_file_path
 from skellybot.system.logging_configuration import configure_logging
 
-
+print(f"Logging to: {get_log_file_path()}")
 
 configure_logging(log_file_path=get_log_file_path())

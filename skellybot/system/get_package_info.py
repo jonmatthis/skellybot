@@ -1,0 +1,2 @@
+from skellybot import __package_name__
+PACKAGE_NAME = __package_name__

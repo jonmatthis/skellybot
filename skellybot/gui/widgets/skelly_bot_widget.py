@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QApplication, QLineEdit, QPushButton, QTextEdit, QVB
 
 logger = logging.getLogger(__name__)
 
-class ChatBot(QThread):
+class SkellyBotThread(QThread):
     reply_signal: pyqtSignal = pyqtSignal(str)
     message_signal: pyqtSignal = pyqtSignal(str)
 
@@ -26,10 +26,10 @@ class ChatBot(QThread):
         self.reply_signal.emit(f"ChatBot: I heard you say '{self.message}'")
 
 
-class ChatApp(QWidget):
+class SkellyBotWidget(QWidget):
     def __init__(self) -> None:
         super().__init__()
-        self.bot = ChatBot()
+        self.bot = SkellyBotThread()
         self.bot.reply_signal.connect(self.receive_reply)
         self.bot.message_signal.connect(self.bot.receive_message)
         self.init_ui()
@@ -79,7 +79,7 @@ class ChatApp(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    chat_app = ChatApp()
+    chat_app = SkellyBotWidget()
     chat_app.show()
 
     sys.exit(app.exec())
