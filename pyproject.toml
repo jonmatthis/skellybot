@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "skellybot"
+version = "0.1.0"
+description = "A friendly skeleton who is here to help with freemocap related stuff"
+authors = ["jonmatthis <jonmatthis@gmail.com>"]
+license = "AGPLv3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+PyQt6 = "^6.5.0"
+langchain = "^0.0.184"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+pytest = "^7.3.1"
+bumpver = "^2023.1124"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
