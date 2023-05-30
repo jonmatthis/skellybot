@@ -6,6 +6,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.utilities import SerpAPIWrapper
 from dotenv import load_dotenv
 
+from skellybot.bot.freemocap_vectorstore_agent import freemocap_retrieval_qa_chain
 
 
 class Bot:
@@ -18,6 +19,11 @@ class Bot:
                 func=self.search.run,
                 description="useful for when you need to answer questions about current events or the current state of the world. the input to this should be a single search term."
             ),
+            Tool(
+                name="FreeMoCap Docs Question Answering Agent",
+                func=freemocap_retrieval_qa_chain.run,
+                description="useful for when you need to answer questions about FreeMoCap. The input to this should be a single question about FreeMoCap."
+            )
         ]
         self.memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
         self.llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=.8)
