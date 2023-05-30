@@ -3,10 +3,9 @@ import sys
 import time
 
 from PyQt6.QtCore import QThread, pyqtSignal, pyqtSlot
-from PyQt6.QtWidgets import QApplication, QLineEdit, QPushButton, QTextEdit, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QApplication, QLineEdit, QPushButton, QTextEdit, QVBoxLayout, QWidget, QMessageBox
 
 logger = logging.getLogger(__name__)
-
 
 class ChatBot(QThread):
     reply_signal: pyqtSignal = pyqtSignal(str)
@@ -45,10 +44,14 @@ class ChatApp(QWidget):
         self.send_button: QPushButton = QPushButton("Send")
         self.send_button.clicked.connect(self.enter_pressed)
 
+        self.reset_button: QPushButton = QPushButton("Reset Chat")
+        self.reset_button.clicked.connect(self.reset_chat)
+
         vbox: QVBoxLayout = QVBoxLayout()
         vbox.addWidget(self.chat_transcript_area)
         vbox.addWidget(self.input_area)
         vbox.addWidget(self.send_button)
+        vbox.addWidget(self.reset_button)
 
         self.setLayout(vbox)
 
@@ -67,6 +70,11 @@ class ChatApp(QWidget):
         self.send_button.setText("Send")
         self.send_button.setEnabled(True)
 
+    def reset_chat(self) -> None:
+        confirmation = QMessageBox.question(
+            self, 'Reset Chat', "Are you sure you want to reset the chat?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if confirmation == QMessageBox.StandardButton.Yes:
+            self.chat_transcript_area.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
