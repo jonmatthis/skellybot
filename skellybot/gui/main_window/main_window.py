@@ -3,7 +3,7 @@ import logging
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
 
-from skellybot.gui.widgets.skelly_bot_widget import SkellyBotWidget
+from skellybot.gui.chat_window.chat_widget import ChatWidget
 
 logger = logging.getLogger(__name__)
 
@@ -23,5 +23,5 @@ class MainWindow(QMainWindow):
 
         self._path_to_folder_label = QLabel("No folder selected")
         self._layout.addWidget(self._path_to_folder_label)
-        self._layout.addWidget(SkellyBotWidget())
+        self._layout.addWidget(ChatWidget())
 

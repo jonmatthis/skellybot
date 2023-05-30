@@ -12,6 +12,7 @@ __repo_issues_url__ = f"{__repo_url__}issues"
 import sys
 from pathlib import Path
 
+
 print(f"Thank you for using {__package_name__}!")
 print(f"This is printing from: {__file__}")
 print(f"Source code for this package is available at: {__repo_url__}")
@@ -25,3 +26,5 @@ from skellybot.system.logging_configuration import configure_logging
 print(f"Logging to: {get_log_file_path()}")
 
 configure_logging(log_file_path=get_log_file_path())
+
+from skellybot.gui.chat_window.chat_widget import ChatWidget as SkellybotChatWidget

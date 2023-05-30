@@ -2,12 +2,12 @@ import logging
 
 from PyQt6.QtWidgets import QApplication
 
-from skellybot.gui.widgets.main_window import MainWindow
+from skellybot.gui.main_window.main_window import MainWindow
 
 logger = logging.getLogger(__name__)
 
 
-def gui_main():
+def qt_main():
     app = QApplication([])
     win = MainWindow()
     win.show()
@@ -15,4 +15,4 @@ def gui_main():
 
 
 if __name__ == "__main__":
-    gui_main()
+    qt_main()

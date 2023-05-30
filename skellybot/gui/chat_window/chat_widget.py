@@ -1,37 +1,21 @@
 import logging
 import sys
-import time
 
-from PyQt6.QtCore import QThread, pyqtSignal, pyqtSlot
 from PyQt6.QtWidgets import QApplication, QLineEdit, QPushButton, QTextEdit, QVBoxLayout, QWidget, QMessageBox
+
+from skellybot.bot.bot import Bot
+from skellybot.gui.chat_window.chat_thread_worker import ChatThreadWorker
 
 logger = logging.getLogger(__name__)
 
-class SkellyBotThread(QThread):
-    reply_signal: pyqtSignal = pyqtSignal(str)
-    message_signal: pyqtSignal = pyqtSignal(str)
 
-    def __init__(self) -> None:
+class ChatWidget(QWidget):
+    def __init__(self,
+                 bot:Bot = Bot()) -> None:
         super().__init__()
-        self.message: str = ""
-
-    @pyqtSlot(str)
-    def receive_message(self, message: str) -> None:
-        self.message = message
-        if not self.isRunning():
-            self.start()
-
-    def run(self) -> None:
-        time.sleep(1)  # Simulate reply delay
-        self.reply_signal.emit(f"ChatBot: I heard you say '{self.message}'")
-
-
-class SkellyBotWidget(QWidget):
-    def __init__(self) -> None:
-        super().__init__()
-        self.bot = SkellyBotThread()
-        self.bot.reply_signal.connect(self.receive_reply)
-        self.bot.message_signal.connect(self.bot.receive_message)
+        self._chat_thread_worker = ChatThreadWorker(bot=bot)
+        self._chat_thread_worker.reply_signal.connect(self.receive_reply)
+        self._chat_thread_worker.message_signal.connect(self._chat_thread_worker.receive_message)
         self.init_ui()
 
     def init_ui(self) -> None:
@@ -62,24 +46,24 @@ class SkellyBotWidget(QWidget):
             self.input_area.clear()
             self.send_button.setText("Awaiting Reply...")
             self.send_button.setEnabled(False)
-            self.bot.message_signal.emit(text)
+            self._chat_thread_worker.message_signal.emit(text)
 
     def receive_reply(self, text: str) -> None:
         self.chat_transcript_area.append(text)
-        self.bot.quit()
+        self._chat_thread_worker.quit()
         self.send_button.setText("Send")
         self.send_button.setEnabled(True)
 
     def reset_chat(self) -> None:
         confirmation = QMessageBox.question(
-            self, 'Reset Chat', "Are you sure you want to reset the chat?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            self, 'Reset Chat', "Are you sure you want to reset the chat_window?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if confirmation == QMessageBox.StandardButton.Yes:
             self.chat_transcript_area.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    chat_app = SkellyBotWidget()
+    chat_app = ChatWidget()
     chat_app.show()
 
     sys.exit(app.exec())

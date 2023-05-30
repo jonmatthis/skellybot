@@ -10,10 +10,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from gui.gui_main import gui_main
+from gui.qt_main import qt_main
 
 def main():
-    gui_main()
+    qt_main()
 
 if __name__ == '__main__':
     logger.info(f"Running as a script")
